@@ -1,0 +1,29 @@
+# Node modules
+node_modules/
+
+# Compiled output
+dist/
+build/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Environment variables
+.env
+
+# TypeScript cache
+*.tsbuildinfo
+
+# IDE / Editor folders
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# Operating System files
+Thumbs.db
+ehthumbs.db
+Icon?
+Desktop.ini
