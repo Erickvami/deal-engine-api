@@ -14,7 +14,7 @@ export class FlightService {
     }
 
     async get({ origin, destination }: { origin?: string | undefined, destination?: string | undefined } = {}): Promise<Flight[]> {
-        const redisKey = `fl:${origin ?? 'all'}_${destination ?? 'all'}`;
+        const redisKey = `f:${origin ?? 'all'}_${destination ?? 'all'}`;
         let flights: Flight[] = [];
         
         const cachedFlights = redisService.isRedisConnected ? await redisService.get(redisKey) : null;

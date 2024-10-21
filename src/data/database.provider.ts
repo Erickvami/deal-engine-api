@@ -3,8 +3,17 @@ import { Airline } from './entities/airline.entity';
 import { Airport } from './entities/airport.entity';
 import { Flight } from './entities/flight.entity';
 import dotenv from 'dotenv';
+import fs from 'fs';
+import path from 'path';
 
 dotenv.config();
+
+const sslConfig = process.env.DB_CA_PATH 
+    ? {
+        rejectUnauthorized: true,
+        ca: fs.readFileSync(path.resolve(__dirname, process.env.DB_CA_PATH)).toString(), // Leer el archivo ca.pem
+    }
+    : false;
 
 export const AppDataSource = new DataSource({
         type: 'postgres',
@@ -14,6 +23,7 @@ export const AppDataSource = new DataSource({
         password: process.env.DB_PASS,
         database: process.env.DB_NAME || 'deal-engine-test',
         entities: [Airline, Airport, Flight],
+        ssl: sslConfig,
         synchronize: true,
         logging: false
     });

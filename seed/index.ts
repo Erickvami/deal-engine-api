@@ -1,4 +1,4 @@
-import { AppDataSource, createConnection } from '../src/data/database.provider';
+import { AppDataSource, createConnection, } from '../src/data/database.provider';
 import { Airline } from '../src/data/entities/airline.entity'
 import { Airport } from '../src/data/entities/airport.entity'
 import { Flight } from '../src/data/entities/flight.entity'
@@ -11,11 +11,11 @@ const filePath = path.join(__dirname, './challenge_dataset.csv');
 const readCSV = async (): Promise<Row[]> => parse<Row>(fs.readFileSync(filePath, 'utf8'), { header: true })?.data ?? [];
 const db = AppDataSource;
 
-const seedDatabase = async () => {
+export const seedDatabase = async () => {
   await createConnection();
   
   const flightRepo = db.getRepository(Flight);
-  if (!(await flightRepo.count())) {
+  if ((await flightRepo.count() > 0)) {
     console.warn('starting data already exist, skippping seed...');
     return;
   }

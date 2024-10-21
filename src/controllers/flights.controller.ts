@@ -1,7 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
 import { FlightService } from '../services/flight.service';
-import { AppError } from '../middlewares/error-handler';
-import { next } from 'stylis';
 
 class FlightsController {
     private flightsService: FlightService;
