@@ -28,14 +28,35 @@ This a web api service to provide information about current flight tickets, incl
 ## Instalación
 
 ### Run
-NOTE: Make sure you have node js, typescript, postgresql and redis in your machine.
+NOTE: If running locally make sure you have node js, typescript, postgresql and redis in your machine.
 
-1. Run seed folder to add the base data to postgresql
+Clone the repo:
+   ```bash
+    git clone https://github.com/tu-usuario/flight-service-api.git
+   ```
+1. create a `.env` and if needed `ca.pem` file in project
+
+### .env example
+```bash
+    PORT=3001
+    DB_HOST={DB_HOST}
+    DB_PORT={DB_PORT}
+    DB_USER={DB_USER}
+    DB_PASS={DB_PASS}
+    DB_NAME={DB_NAME}
+    DB_CA_PATH=../../ca.pem
+    WEATHER_API_URL=https://api.open-meteo.com/v1/forecast
+    REDIS_HOST={REDIS_HOST}
+    REDIS_PORT={REDIS_PORT}
+    REDIS_EXPIRATION=3600
+    MAX_CONCURRENT_REQUESTS=12
+```
+2. Run seed folder to add the base data to postgresql
     ```bash
         npm run seed
     ```
-2. Make sure you are running redis
-3. run the web api service
+3. Make sure you are running redis
+4. run the web api service
     ```bash
         npm run dev
         ... or...
@@ -47,11 +68,7 @@ NOTE: Make sure you have node js, typescript, postgresql and redis in your machi
 ### With Docker
 NOTE: make sure you have docker and docker-compose in your machine
 
-1. Clone the repo:
-   ```bash
-    git clone https://github.com/tu-usuario/flight-service-api.git
-   ```
-2. build your service
+1. build your service
     ```bash
        docker-compose up --build 
     ```
