@@ -1,7 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
+import { EntityNotFoundError, QueryFailedError } from 'typeorm';
 import winston from 'winston';
 
-const logger = winston.createLogger({
+export const errorLogger = winston.createLogger({
     level: 'error',
     format: winston.format.json(),
     transports: [
@@ -20,8 +21,18 @@ export class AppError extends Error {
 }
 
 export const errorHandler = (err: AppError, req: Request, res: Response, next: NextFunction) => {
-    const statusCode = err.statusCode || 500;
-    logger.error({
+    let statusCode = err.statusCode || 500;
+    let message = err.message || 'Internal Server Error';
+
+    if (err instanceof QueryFailedError) {
+        statusCode = 400;
+        message = 'Database Query Failed';
+    } else if (err instanceof EntityNotFoundError) {
+        statusCode = 404;
+        message = 'Resource Not Found';
+    }
+
+    errorLogger.error({
         message: err.message || 'Internal Server Error',
         statusCode: statusCode,
         stack: process.env.NODE_ENV === 'development' ? err.stack : undefined,
@@ -33,7 +44,7 @@ export const errorHandler = (err: AppError, req: Request, res: Response, next: N
     });
 
     res.status(statusCode).json({
-        message: statusCode === 500 ? 'Internal Server Error' : err.message,
+        message: statusCode === 500 ? 'Internal Server Error' : message,
         statusCode: statusCode,
     });
 };
